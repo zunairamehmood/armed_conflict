@@ -26,7 +26,7 @@ install.packages("usethis")
 library(usethis) 
 gitcreds::gitcreds_set()
 
-usethis::use_git_config(user.name = "zunairamehmood", user.email = "zunaira.m.alam@gmail.com",)
+usethis::use_git_config(user.name = "zunairamehmood", user.email = "zunaira.m.alam@gmail.com")
 usethis::git_sitrep()
 
 usethis::use_git() #Initiate and Commit Files
