@@ -19,3 +19,11 @@ maternal.mortality.subset <- pivot_longer(data = maternal.mortality.subset,
 head(maternal.mortality.subset,20)
 tail(maternal.mortality.subset,20)
 
+########################################
+install.packages("usethis")
+library(usethis) 
+usethis::use_git_config(user.name = "zunairamehmood", user.email = "zunaira.m.alam@gmail.com")
+usethis::git_sitrep()
+
+usethis::use_git() #Initiate and Commit Files
+usethis::use_github() #Push to GitHub
