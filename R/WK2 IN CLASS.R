@@ -29,6 +29,7 @@ gitcreds::gitcreds_set()
 usethis::use_git_config(user.name = "zunairamehmood", user.email = "zunaira.m.alam@gmail.com")
 usethis::git_sitrep()
 
+usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 usethis::use_git() #Initiate and Commit Files
 usethis::use_github() #Push to GitHub
 ########################################
