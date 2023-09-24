@@ -5,19 +5,21 @@ library(dplyr)
 install.packages("tidyverse")
 library(tidyverse)
 
-
-maternal.mortality.df <- read.csv(here("original","maternalmortality.csv"), 
+maternal_mortality_df <- read.csv(here("original","maternalmortality.csv"), 
                                   header = TRUE, na.strings = c(""))
 
-maternal.mortality.subset <- select(maternal.mortality.df, Country.Name, paste("X",c(2000:2019), sep=""))
-maternal.mortality.subset <- pivot_longer(data = maternal.mortality.subset,
+maternal_mortality_cleaned <- select(maternal_mortality_df, Country.Name, paste("X",c(2000:2019), sep=""))
+maternal_mortality_cleaned <- pivot_longer(data = maternal_mortality_cleaned,
                                           cols = starts_with("X"),
                                           names_prefix = "X",
                                           names_to = "Year",
                                           names_transform = list(Year=as.double),
                                           values_to = "MatMor")
-head(maternal.mortality.subset,20)
-tail(maternal.mortality.subset,20)
+
+head(maternal_mortality_cleaned,20)
+tail(maternal_mortality_cleaned,20)
+
+write.csv(maternal_mortality_cleaned, here("data","maternal_mortality_cleaned.csv"),row.names = FALSE)
 
 ########################################
 install.packages("usethis")
@@ -29,3 +31,5 @@ usethis::git_sitrep()
 
 usethis::use_git() #Initiate and Commit Files
 usethis::use_github() #Push to GitHub
+########################################
+
