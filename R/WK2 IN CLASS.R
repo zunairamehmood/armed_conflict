@@ -22,7 +22,9 @@ tail(maternal.mortality.subset,20)
 ########################################
 install.packages("usethis")
 library(usethis) 
-usethis::use_git_config(user.name = "zunairamehmood", user.email = "zunaira.m.alam@gmail.com")
+gitcreds::gitcreds_set()
+
+usethis::use_git_config(user.name = "zunairamehmood", user.email = "zunaira.m.alam@gmail.com",)
 usethis::git_sitrep()
 
 usethis::use_git() #Initiate and Commit Files
