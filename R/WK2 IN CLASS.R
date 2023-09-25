@@ -43,4 +43,5 @@ disaster_cleaned$earthquake <- ifelse(disaster_cleaned$Disaster.Type=="Earthquak
 disaster_cleaned$drought <- ifelse(disaster_cleaned$Disaster.Type=="Drought",1,0)
 
 disaster_cleaned2 <- disaster_cleaned %>% group_by(ISO,Year) %>% summarize(drought=sum(drought),earthquake = sum(earthquake)) 
+write.csv(disaster_cleaned2, here("data","disaster_cleaned.csv"),row.names = FALSE)
 
