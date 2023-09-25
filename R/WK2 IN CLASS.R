@@ -34,3 +34,13 @@ usethis::use_git() #Initiate and Commit Files
 usethis::use_github() #Push to GitHub
 ########################################
 
+
+disaster_df <- read.csv(here("original","disaster.csv"), 
+                                  header = TRUE, na.strings = c(""))
+disaster_cleaned <- filter(disaster_df,(Year>= 2000 & Year<=2019) & (Disaster.Type=="Earthquake" | Disaster.Type=="Drought"))
+disaster_cleaned <- select(disaster_cleaned, Year, ISO, Disaster.Type)
+disaster_cleaned$earthquake <- ifelse(disaster_cleaned$Disaster.Type=="Earthquake",1,0)
+disaster_cleaned$drought <- ifelse(disaster_cleaned$Disaster.Type=="Drought",1,0)
+
+disaster_cleaned2 <- disaster_cleaned %>% group_by(ISO,Year) %>% summarize(drought=sum(drought),earthquake = sum(earthquake)) 
+
