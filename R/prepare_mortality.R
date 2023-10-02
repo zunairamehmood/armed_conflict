@@ -1,15 +1,8 @@
-install.packages("here")
-library(here)
-install.packages("dplyr")
-library(dplyr)
-install.packages("tidyverse")
-library(tidyverse)
-install.packages("countrycode")
-library(countrycode) # https://github.com/vincentarelbundock/countrycode
+# https://github.com/vincentarelbundock/countrycode
 
+file_names_vector <- c("infantmortality.csv","maternalmortality.csv","neonatalmortality.csv","under5mortality.csv")
 #CREATE A LIST OF DATA FRAMES FROM A DIRECTORY WITH CSV FILES
-create.df.list <- function(directory){
-  file_names_vector <- list.files(directory)
+create.df.list <- function(file_names_vector){
   L <- length(file_names_vector)
   df_list <- list() #Initiates empty list
   length(df_list) <- L #Should have same number of elements in list as the number of files
@@ -19,15 +12,14 @@ create.df.list <- function(directory){
   }
   return(df_list)
 }
-data_list <- create.df.list(here("original"))
+data_list <- create.df.list(file_names_vector)
 
 #CLEANING DATA FRAME LIST 
 clean.df.list <- function(df_list){
-  file_names_vector <- list.files(here("original"))
   L <- length(df_list)
   cleaned_df_list <- list()
   length(cleaned_df_list) <- L
-  for (i in 2:L){ 
+  for (i in 1:L){ 
     cleaned_df_list[[i]] <- select(df_list[[i]], Country.Name, paste("X",c(2000:2019), sep=""))
     cleaned_df_list[[i]] <- pivot_longer(data = cleaned_df_list[[i]],
                                          cols = starts_with("X"),
@@ -38,22 +30,24 @@ clean.df.list <- function(df_list){
   }
   return(cleaned_df_list)
 }
-cleaned_data_list <- clean.df.list(create.df.list(here("original")))
+cleaned_data_list <- clean.df.list(create.df.list(file_names_vector))
 
 # LIST OF ALL MORTALITY DATA FRAMES
-mortalitydata_list <- cleaned_data_list[-1]
+mortalitydata_list <- cleaned_data_list
 
 
 # MERGE ALL DATA FRAMES IN LIST
-mortalitydata_list |> reduce(full_join, by = c('Country.Name', 'Year')) -> cleaned_mortality_data
+mortalitydata_list |> reduce(full_join, by = c('Country.Name', 'Year')) -> mortality
 
 
 # ADD ISO3 TO DATA
-cleaned_mortality_data$ISO <- countrycode(cleaned_mortality_data$Country.Name, 
+mortality$ISO <- countrycode(mortality$Country.Name, 
                           origin = "country.name", 
                           destination = "iso3c")
-cleaned_mortality_data <- select(cleaned_mortality_data, -Country.Name)
+mortality <- select(mortality, -Country.Name)
+mortality$year <- mortality$Year
+mortality$Year <- NULL
 
-
-#Sample code from last class
-write.csv(cleaned_mortality_data, here("data","mortality_cleaned.csv"),row.names = FALSE)
+#SAVING DATA
+save(mortality, file = here("data", "mortality.Rda"))
+#write.csv(cleaned_mortality_data, here("data","mortality_cleaned.csv"),row.names = FALSE)
