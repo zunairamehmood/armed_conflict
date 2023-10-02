@@ -5,7 +5,6 @@ source(here("R", "prepare_mortality.R"))
 source(here("R", "prepare_disaster.R"))
 source(here("R", "prepare_conflict.R"))
 
-
 #put all data frames into list
 alllist <- list(covs, confdata, mortality, disasters)
 

@@ -1,6 +1,7 @@
 # https://github.com/vincentarelbundock/countrycode
 
 file_names_vector <- c("infantmortality.csv","maternalmortality.csv","neonatalmortality.csv","under5mortality.csv")
+
 #CREATE A LIST OF DATA FRAMES FROM A DIRECTORY WITH CSV FILES
 create.df.list <- function(file_names_vector){
   L <- length(file_names_vector)
