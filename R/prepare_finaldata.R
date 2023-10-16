@@ -18,6 +18,7 @@ finaldata <- finaldata |>
          earthquake = replace_na(earthquake, 0),
          totdeath = replace_na(totdeath, 0))
 
+save(finaldata, file = here("data", "finaldata.Rda") )
 write.csv(finaldata, file = here("data", "finaldata.csv"), row.names = FALSE)
 
 dim(finaldata)
